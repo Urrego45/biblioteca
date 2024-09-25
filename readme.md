@@ -1,0 +1,14 @@
+POSTGRES_PASSWORD=password
+
+POSTGRES_USER=postgres
+
+POSTGRES_DB=djangodb
+
+POSTGRES_PORT=5432
+
+POSTGRES_HOST=django-db
+
+POSTGRES_SSL_MODE=disable
+
+
+

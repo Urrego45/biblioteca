@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+
+  db:
+    container_name: django-db
+    image: postgres:16.1-alpine
+    env_file:
+      - .env
+    volumes:
+      - django-postgres:/var/lib/postgresql
+    ports:
+      - ${POSTGRES_PORT}:5432
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - python-network
+
+  python:
+    container_name: django-api
+    build:
+      context: backend
+      dockerfile: dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/app
+    environment:
+      - DB_NAME=${POSTGRES_DB}
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_HOST=${POSTGRES_HOST}
+    networks:
+      - python-network
+
+volumes:
+  django-postgres:
+
+networks:
+  python-network:
+    driver: bridge
