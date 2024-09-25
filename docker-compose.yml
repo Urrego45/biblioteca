@@ -3,12 +3,12 @@ version: '3.8'
 services:
 
   db:
-    container_name: django-db
+    container_name: biblioteca-db
     image: postgres:16.1-alpine
     env_file:
       - .env
     volumes:
-      - django-postgres:/var/lib/postgresql
+      - biblioteca-postgres:/var/lib/postgresql
     ports:
       - ${POSTGRES_PORT}:5432
     environment:
@@ -19,7 +19,7 @@ services:
       - python-network
 
   python:
-    container_name: django-api
+    container_name: biblioteca-api
     build:
       context: backend
       dockerfile: dockerfile
@@ -40,7 +40,7 @@ services:
       - python-network
 
 volumes:
-  django-postgres:
+  biblioteca-postgres:
 
 networks:
   python-network:
